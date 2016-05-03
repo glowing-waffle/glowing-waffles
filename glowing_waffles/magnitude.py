@@ -1,28 +1,37 @@
+from numpy import size
+
 __all__ = ['aavso']
 
-def aavso(ccd_image, sources, variable_star):
+def aavso(variable_star, comparison_stars):
     """
-    Perform AAVSO-style differential photometry, with a few options for estimating
-    the local background from an annulus around the aperture.
+    Perform AAVSO-style differential photometry calcuation
+    on a selected star, and an array of other stars.
     ----------
-    ccd_image : `~ccdproc.CCDData`, a np.ndarray
-        Image on which to perform aperture photometry.
-    sources : `~astropy.table.Table`
-        Table of extracted sources. Assumed to be the output of
-        `~photutils.daofind()` source extraction function. Assumed to not contain variable star.
-    variable_star:_______ information for the variable start
-        _____
+    variable_star : a np.ndarray
+        A numpy array of variable star information.
+    comparison_stars : a np.ndarray
+        A numpy array of extracted comparison stars. 
+        Assumed to not contain variable star.
     Returns
     The AAVSO-style differential photometric value.
     """
     
-    # NOTE: need to do for all stars and use weighted average
+    v_measured = variable_star.getmagnitude()     # instrumental magnitude of the variable star 
     
-    v_measured = 0                          # instrumental magnitude of the variable star 
-    c_measured = 0                          # instrumental magnitude of the comparison star
-    delta_v = v_measured - c_measured       # differential magnitude
+    weighted_std_mag = 0                          # start at 0, increment each time
     
-    c_published = 0                         # published magnitude of the comparison star
-    V = delta_v + c_published               # standardized magnitude
+    # compare to all comparision stars
+    for star_info in comparison_stars:
+        c_measured = star_info.getmagnitude()     # instrumental magnitude of the comparison star
+        delta_v = v_measured - c_measured         # differential magnitude
+        
+        # somehow calculate and include a weight ??
+        weight = 1
+        
+        c_published = 0                             # published magnitude of the comparison star
+        V = delta_v + c_published                   # standardized magnitude
+        weighted_std_mag += V * weight              # weight each magnitude
+        
+    weighted_std_mag / comparison_stars.size        # averaging weights
     
-    return V
+    return weighted_std_mag
