@@ -1,17 +1,6 @@
-A package for performing stellar photometry.
---------------------------------------------
+# Please see [stellarphot](https://github.com/feder-observatory/stellarphot>) for the actively-maintained version of this
 
-.. image:: http://img.shields.io/badge/powered%20by-AstroPy-orange.svg?style=flat
-    :target: http://www.astropy.org
-    :alt: Powered by Astropy Badge
-
-.. image:: https://travis-ci.com/glowing-waffle/glowing-waffles.svg?branch=master
-    :target: https://travis-ci.com/glowing-waffle/glowing-waffles
-
-.. image:: https://codecov.io/gh/glowing-waffle/glowing-waffles/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/glowing-waffle/glowing-waffles
-
-This is a package for doing stellar photometry that relies on astropy.
+A (former) package for performing stellar photometry.
 
 
 License
